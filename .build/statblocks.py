@@ -44,12 +44,18 @@ layout: Daggerheart Adversary
     md += "```"
     return md
 
+def get_file(json):
+    folder = "adversaries" if "atk" in json else "environments"
+    name = json["name"]
+    if ":" in name:
+        name = name.replace(": ", " - ")
+    return f"../{folder}/Tier {json['tier']}/{name}.md"
+
 for adversary in adversaries:
-    folder = f""
-    with open(f"../adversaries/Tier {adversary['tier']}/{adversary['name']}.md", "w") as file:
+    with open(get_file(adversary), "w") as file:
         file.write(convert_adversary(adversary))
 
 for environment in environments:
-    with open(f"../environments/Tier {environment['tier']}/{environment['name']}.md", "w") as file:
+    with open(get_file(environment), "w") as file:
         file.write(convert_environment(environment))
 
